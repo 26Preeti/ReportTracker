@@ -1,0 +1,10 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =Set(GalpendingVis,true);
+        Set(GalapprovedVis,false);
+        Set(GalCanceledVis,false);
+        Set(GalCloseVis,false);
+        Set(GalopenVis,false);
+    StartScreen: =
+

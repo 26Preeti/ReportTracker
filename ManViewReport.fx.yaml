@@ -1,0 +1,244 @@
+ManViewReport As screen:
+
+    Rectangle3 As rectangle:
+        Height: =768
+        Width: =1366
+        ZIndex: =1
+
+    Rectangle3_1 As rectangle:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =620
+        Width: =1338
+        X: =14
+        Y: =130
+        ZIndex: =2
+
+    Label10 As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =130
+        Size: =40
+        Text: ="Summary Report"
+        Width: =1366
+        ZIndex: =3
+
+    Label11 As label:
+        FontWeight: =FontWeight.Semibold
+        Size: =15
+        Text: ="Employee Name"
+        Width: =170
+        X: =81
+        Y: =151
+        ZIndex: =4
+
+    Label12 As label:
+        FontWeight: =FontWeight.Semibold
+        Size: =15
+        Text: ="Department"
+        X: =418
+        Y: =Label11.Y
+        ZIndex: =5
+
+    Label12_1 As label:
+        FontWeight: =FontWeight.Semibold
+        Size: =15
+        Text: ="Description"
+        X: =1060
+        Y: =Label11.Y
+        ZIndex: =6
+
+    Label12_2 As label:
+        FontWeight: =FontWeight.Semibold
+        Size: =15
+        Text: |-
+            ="Expense For: "
+        X: =81
+        Y: =272
+        ZIndex: =7
+
+    Label12_3 As label:
+        FontWeight: =FontWeight.Semibold
+        Size: =15
+        Text: ="Amount"
+        X: =418
+        Y: =272
+        ZIndex: =8
+
+    Label12_4 As label:
+        FontWeight: =FontWeight.Semibold
+        Size: =15
+        Text: ="Date of  Meeting"
+        Width: =170
+        X: =697
+        Y: =270
+        ZIndex: =9
+
+    Button5 As button:
+        Height: =66
+        OnSelect: |-
+            =Patch(ExpenseReports,
+                  LookUp(ExpenseReports,ExpenseReport=manCurRep.ExpenseReport),
+                  {er_Status:"Approved",er_CommentByManager:TextInput4.Text}
+            );
+            
+            UpdateContext({toUser:LookUp(EmployeeData,empID=manCurRep.er_empID)});
+            UpdateContext({Subject:Concatenate("Approved Expense Report for Meeting : " , manCurRep.er_MeetingTitle)});
+            UpdateContext({Body:Concatenate("Your request for expense of " , manCurRep.er_PaymentFor , " for meeting ",manCurRep.er_MeetingTitle , " held on " , manCurRep.er_DateofMeeting  , " is Approved by your Manager. Manager's Comment - " ,manCurRep.er_CommentByAdmin," For any issues or queries you can write in helpdesk. Thank you! ")});
+            //SendEmail.Run(toUser.emp_EmailID,Subject,Body);
+            
+            Set(manCurRep,Blank());
+            Reset(TextInput4);
+            Back();
+        Size: =20
+        Text: ="Approve "
+        Width: =282
+        X: =333
+        Y: =636
+        ZIndex: =10
+
+    Button5_1 As button:
+        Height: =66
+        OnSelect: |-
+            =Patch(ExpenseReports,LookUp(ExpenseReports,ExpenseReport=manCurRep.ExpenseReport),{er_Status:"Canceled",er_CommentByManager:TextInput4.Text});
+            
+            UpdateContext({toUser:LookUp(EmployeeData,empID=manCurRep.er_empID)});
+            UpdateContext({Subject:Concatenate("Canceled Expense Report for Meeting : " , manCurRep.er_MeetingTitle)});
+            UpdateContext({Body:Concatenate("Your request for expense of " , manCurRep.er_PaymentFor , " for meeting ",manCurRep.er_MeetingTitle , " held on " , manCurRep.er_DateofMeeting  , " is Canceled. Manager's Comment - " ,manCurRep.er_CommentByAdmin," For any issues or queries you can write in helpdesk. Thank you! ")});
+            //SendEmail.Run(toUser.emp_EmailID,Subject,Body);
+            
+            
+            Set(manCurRep,Blank());
+            Reset(TextInput4);
+            Back();
+        Size: =20
+        Text: ="Cancel"
+        Width: =294
+        X: =755
+        Y: =636
+        ZIndex: =11
+
+    Label12_5 As label:
+        FontWeight: =FontWeight.Semibold
+        Height: =60
+        Size: =15
+        Text: ="Comment"
+        X: =81
+        Y: =404
+        ZIndex: =12
+
+    TextInput4 As text:
+        Default: =If(!IsBlank(manCurRep.er_CommentByManager),manCurRep.er_CommentByManager,Blank())
+        Height: =98
+        Mode: =TextMode.MultiLine
+        Width: =1226
+        X: =81
+        Y: =478
+        ZIndex: =13
+
+    Icon2_1 As icon.ChevronLeft:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =88
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        Width: =88
+        X: =26
+        Y: =23
+        ZIndex: =14
+
+    Label25 As label:
+        Height: =42
+        Text: =LookUp(EmployeeData,empID=manCurRep.er_empID).emp_name
+        Width: =222
+        X: =Label11.X
+        Y: =191
+        ZIndex: =15
+
+    Label25_1 As label:
+        Height: =42
+        Text: =manCurRep.er_Department
+        Width: =222
+        X: =Label12.X
+        Y: =Label25.Y
+        ZIndex: =16
+
+    Label25_2 As label:
+        Height: =42
+        Text: =manCurRep.er_MeetingDescription
+        Width: =222
+        X: =Label12_1.X
+        Y: =Label25.Y
+        ZIndex: =17
+
+    Label25_3 As label:
+        Height: =42
+        Text: =manCurRep.er_PaymentFor
+        Width: =222
+        X: =81
+        Y: =325
+        ZIndex: =18
+
+    Label25_4 As label:
+        Height: =42
+        Text: =manCurRep.er_Amount
+        Width: =222
+        X: =418
+        Y: =325
+        ZIndex: =19
+
+    Label25_5 As label:
+        Height: =42
+        Text: =manCurRep.er_DateofMeeting
+        Width: =222
+        X: =697
+        Y: =325
+        ZIndex: =20
+
+    Label25_6 As label:
+        Text: =manCurRep.er_MeetingTitle
+        Width: =222
+        X: =Label12_6.X
+        Y: =Label25.Y
+        ZIndex: =21
+
+    Label12_6 As label:
+        FontWeight: =FontWeight.Semibold
+        Size: =15
+        Text: ="Meeting Title"
+        X: =697
+        Y: =Label11.Y
+        ZIndex: =22
+
+    Label12_7 As label:
+        FontWeight: =FontWeight.Semibold
+        Size: =15
+        Text: |-
+            ="Proof : "
+        Width: =170
+        X: =1060
+        Y: =270
+        ZIndex: =23
+
+    attach_2 As attachments:
+        AddAttachmentText: ="Upload file"
+        BorderColor: =RGBA(102, 113, 166, 1)
+        BorderThickness: =1
+        Default: |-
+            =If(!IsBlank(manCurRep.er_Proof.FileName),({Name:manCurRep.er_Proof.FileName,Value:manCurRep.er_Proof.Value}),Blank())
+        DisplayMode: =DisplayMode.View
+        Height: =60
+        IsInDataCard: =true
+        Items: |-
+            =If(!IsBlank(manCurRep.er_Proof.FileName),({Name:manCurRep.er_Proof.FileName,Value:manCurRep.er_Proof.Value}),Blank())
+        MaxAttachments: =1
+        MaxAttachmentsText: =""
+        NoAttachmentsText: ="There is no file."
+        PaddingBottom: =5
+        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+        PaddingRight: =5
+        PaddingTop: =5
+        Tooltip: =
+        Width: =280
+        X: =1060
+        Y: =320
+        ZIndex: =24
+

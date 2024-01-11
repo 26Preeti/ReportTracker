@@ -1,0 +1,258 @@
+"'Submit Expense' As screen":
+
+    Rectangle2_2 As rectangle:
+        Height: =768
+        Width: =1366
+        ZIndex: =1
+
+    Rectangle2_3 As rectangle:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =618
+        Width: =1346
+        X: =10
+        Y: =134
+        ZIndex: =2
+
+    Label4 As label:
+        FontWeight: =FontWeight.Semibold
+        Text: ="User ID"
+        X: =60
+        Y: =160
+        ZIndex: =3
+
+    Label5 As label:
+        FontWeight: =FontWeight.Semibold
+        Text: ="Meeting Date"
+        X: =60
+        Y: =308
+        ZIndex: =4
+
+    Label6 As label:
+        FontWeight: =FontWeight.Semibold
+        Text: |-
+            ="Expense For : "
+        X: =508
+        Y: =310
+        ZIndex: =5
+
+    Label7 As label:
+        FontWeight: =FontWeight.Semibold
+        Height: =53
+        Text: ="Meeting/Discription"
+        Width: =188
+        X: =60
+        Y: =453
+        ZIndex: =6
+
+    Label8 As label:
+        FontWeight: =FontWeight.Semibold
+        Height: =53
+        Text: ="Amount"
+        X: =982
+        Y: =453
+        ZIndex: =7
+
+    Label4_1 As label:
+        FontWeight: =FontWeight.Semibold
+        Text: |-
+            ="Manager : " & userRecord.emp_Manager.emp_name
+        Width: =321
+        X: =508
+        Y: =160
+        ZIndex: =8
+
+    Label4_2 As label:
+        FontWeight: =FontWeight.Semibold
+        Height: =50
+        Text: ="Department"
+        X: =982
+        Y: =155
+        ZIndex: =9
+
+    Button2 As button:
+        DisplayMode: |-
+            =If( Or(
+                IsBlank(TextInput3.Text),
+                IsBlank(TextInput3_1.Text),
+                IsBlank(TextInput3_2.Text),
+                IsBlank(TextInput3_3.Text),
+                IsBlank(TextInput3_4.Text),
+                IsBlank(TextInput3_5.Text),
+                IsBlank(TextInput3_6.Text),
+                IsBlank(TextInput3_7.Text),
+                IsEmpty(attach.Attachments)
+                ),
+                DisplayMode.Disabled,
+                DisplayMode.Edit
+            )
+        Height: =66
+        OnSelect: |-
+            =If(IsBlank(currentReport),
+               Patch(ExpenseReports,Defaults(ExpenseReports),
+                { er_empID:Value(TextInput3.Text),
+                 er_ManagerID:Value(TextInput3_6.Text),
+                 er_Department:TextInput3_5.Text,
+                er_DateofMeeting:DateValue(TextInput3_2.Text),
+                 er_PaymentFor:TextInput3_1.Text,
+                 er_MeetingTitle:TextInput3_7.Text,
+                 er_MeetingDescription:TextInput3_4.Text,
+                 er_Amount:Value(TextInput3_3.Text),
+                er_Proof:{FileName:First(attach.Attachments).Name,Value:First(attach.Attachments).Value},
+                er_Status:"Opened",
+                Name:userRecord.Name&" "&TextInput3_4.Text
+               });
+               ,
+             Patch(ExpenseReports,LookUp(ExpenseReports,ExpenseReport=currentReport.ExpenseReport),
+                { er_empID:Value(TextInput3.Text),
+                 er_ManagerID:Value(TextInput3_6.Text),
+                 er_Department:TextInput3_5.Text,
+                er_DateofMeeting:DateValue(TextInput3_2.Text),
+                 er_PaymentFor:TextInput3_1.Text,
+                 er_MeetingTitle:TextInput3_7.Text,
+                 er_MeetingDescription:TextInput3_4.Text,
+                 er_Amount:Value(TextInput3_3.Text),
+                er_Proof:{FileName:First(attach.Attachments).Name,Value:First(attach.Attachments).Value},
+                er_Status:"Opened",
+                Name:userRecord.Name&" "&TextInput3_4.Text
+               });
+            );
+            
+               Reset(TextInput3);Reset(TextInput3_1);Reset(TextInput3_2);Reset(TextInput3_3);Reset(TextInput3_4);Reset(TextInput3_5);Reset(TextInput3_6);Reset(TextInput3_7);Reset(attach);
+            
+            Back();
+        Text: ="Submit"
+        Width: =266
+        X: =1036
+        Y: =659
+        ZIndex: =10
+
+    TextInput3 As text:
+        Default: =userRecord.empID
+        DisplayMode: =DisplayMode.Disabled
+        Height: =74
+        X: =60
+        Y: =200
+        ZIndex: =11
+
+    TextInput3_1 As text:
+        Default: =If(!IsBlank(currentReport),currentReport.er_PaymentFor)
+        Height: =68
+        X: =509
+        Y: =366
+        ZIndex: =12
+
+    TextInput3_2 As text:
+        Default: =If(!IsBlank(currentReport),currentReport.er_DateofMeeting)
+        Height: =68
+        X: =60
+        Y: =366
+        ZIndex: =13
+
+    TextInput3_3 As text:
+        Default: =If(!IsBlank(currentReport),currentReport.er_Amount)
+        Height: =72
+        X: =982
+        Y: =520
+        ZIndex: =14
+
+    TextInput3_4 As text:
+        Default: =If(!IsBlank(currentReport),currentReport.er_MeetingDescription)
+        Height: =106
+        X: =60
+        Y: =520
+        ZIndex: =15
+
+    TextInput3_5 As text:
+        Default: =userRecord.emp_Department
+        DisplayMode: =DisplayMode.Disabled
+        Height: =72
+        X: =982
+        Y: =200
+        ZIndex: =16
+
+    TextInput3_6 As text:
+        Default: =userRecord.emp_Manager.empID
+        DisplayMode: =DisplayMode.Disabled
+        Height: =72
+        X: =509
+        Y: =205
+        ZIndex: =17
+
+    Label13 As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =134
+        Size: =40
+        Text: ="Add Expense"
+        Width: =1366
+        ZIndex: =18
+
+    Icon2 As icon.ChevronLeft:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =88
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        Width: =88
+        X: =26
+        Y: =23
+        ZIndex: =19
+
+    Label7_1 As label:
+        FontWeight: =FontWeight.Semibold
+        Text: ="Meeting Title"
+        Width: =188
+        X: =982
+        Y: =310
+        ZIndex: =25
+
+    TextInput3_7 As text:
+        Default: =If(!IsBlank(currentReport),currentReport.er_MeetingTitle)
+        Height: =68
+        X: =982
+        Y: =366
+        ZIndex: =26
+
+    Image3 As image:
+        Height: =152
+        Image: =currentReport.er_ProofImage
+        Visible: =If(!IsBlank(currentReport),true,false)
+        Width: =320
+        X: =530
+        Y: =526
+        ZIndex: =27
+
+    attach As attachments:
+        AddAttachmentText: ="Upload file"
+        BorderColor: =RGBA(102, 113, 166, 1)
+        BorderThickness: =1
+        Default: |-
+            =If(!IsBlank(currentReport.er_Proof.FileName),({Name:currentReport.er_Proof.FileName,Value:currentReport.er_Proof.Value}),Blank())
+        DisplayMode: =
+        Height: =106
+        IsInDataCard: =true
+        Items: |-
+            =If(!IsBlank(currentReport.er_Proof.FileName),({Name:currentReport.er_Proof.FileName,Value:currentReport.er_Proof.Value}),Blank())
+        MaxAttachments: =1
+        MaxAttachmentsText: =""
+        NoAttachmentsText: ="There is no file."
+        PaddingBottom: =5
+        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+        PaddingRight: =5
+        PaddingTop: =5
+        Tooltip: =
+        Width: =341
+        X: =509
+        Y: =520
+        ZIndex: =28
+
+    Label7_2 As label:
+        FontWeight: =FontWeight.Semibold
+        Height: =54
+        Text: |-
+            ="Proof of Expense: "
+        Width: =188
+        X: =509
+        Y: =453
+        ZIndex: =29
+

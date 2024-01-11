@@ -1,0 +1,762 @@
+Ticket As screen:
+    OnVisible: |-
+        =ClearCollect(ServiceData,Filter('Service Desk Data',TicketID <> Blank()));
+        ClearCollect(ServiceAssignedTo,AddColumns(Filter(EmployeeData,emp_TeamID = 22),"EmpID",empID));
+        UpdateContext({varTicketID : Sum(CountRows(ServiceData),1)});
+
+    Rectangle8_1 As rectangle:
+        Height: =768
+        Width: =1366
+        ZIndex: =1
+
+    Rectangle15 As rectangle:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =656
+        Width: =1334
+        X: =16
+        Y: =99
+        ZIndex: =2
+
+    Form2 As form:
+        DataSource: ='Service Desk Data'
+        DefaultMode: =varFormMode
+        Height: =526
+        Item: =varItems
+        Width: =1326
+        X: =24
+        Y: =132
+        ZIndex: =3
+
+        TicketID_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_name"
+            Default: =ThisItem.TicketID
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_name")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@'Service Desk Data'], DataSourceInfo.MaxLength, "crf7e_name")
+            Required: =true
+            Update: =DataCardValue6.Text
+            Width: =442
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey7 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =18
+                Y: =15
+                ZIndex: =1
+
+            DataCardValue6 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: |
+                    =If(varFormMode = FormMode.New,varTicketID,Parent.Default)
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =18
+                Y: =DataCardKey7.Y + DataCardKey7.Height + 5
+                ZIndex: =2
+
+            ErrorMessage4 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue6.Y + DataCardValue6.Height
+                ZIndex: =3
+
+        Title_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_title"
+            Default: =ThisItem.Title
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_title")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@'Service Desk Data'], DataSourceInfo.MaxLength, "crf7e_title")
+            Required: =true
+            Update: =DataCardValue15.Text
+            Width: =442
+            X: =1
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey16 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue15 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey16.Y + DataCardKey16.Height + 5
+                ZIndex: =2
+
+            StarVisible13 As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =DataCardKey16.Height
+                Text: ="*"
+                Visible: =If(DataCardValue15.Text = Blank(),true,false)
+                Width: =30
+                Wrap: =false
+                X: =79
+                Y: =10
+                ZIndex: =4
+
+        Description_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_description"
+            Default: =ThisItem.Description
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_description")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =100
+            MaxLength: =DataSourceInfo([@'Service Desk Data'], DataSourceInfo.MaxLength, "crf7e_description")
+            Required: =true
+            Update: =DataCardValue10.Text
+            Width: =442
+            X: =2
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey11 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue10 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey11.Y + DataCardKey11.Height + 5
+                ZIndex: =2
+
+            StarVisible8 As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =DataCardKey11.Height
+                Text: ="*"
+                Visible: =If(DataCardValue10.Text = Blank(),true,false)
+                Width: =30
+                Wrap: =false
+                X: =169
+                Y: =10
+                ZIndex: =4
+
+        Department_DataCard1 As typedDataCard.comboBoxOptionSetSingleEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_department"
+            Default: =ThisItem.Department
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_department")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =114
+            Required: =true
+            Update: =DataCardValue9.Selected.Value
+            Width: =442
+            X: =0
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey10 As label:
+                FontWeight: =FontWeight.Semibold
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =382
+                Wrap: =false
+                X: =11
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue9 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =[Parent.Default]
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                IsSearchable: =false
+                Items: =Choices(Department)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =[]
+                SelectMultiple: =false
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =11
+                Y: =50
+                ZIndex: =2
+
+            StarVisible7 As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =DataCardKey10.Height
+                Text: ="*"
+                Visible: =If(DataCardValue9.Selected.Value = Blank(),true,false)
+                Width: =30
+                Wrap: =false
+                X: =163
+                Y: =DataCardKey10.Y
+                ZIndex: =4
+
+        Priority_DataCard1 As typedDataCard.comboBoxOptionSetSingleEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_priority"
+            Default: =ThisItem.Priority
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_priority")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =true
+            Update: =DataCardValue12.Selected.Value
+            Width: =442
+            X: =1
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey13 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue12 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =[Parent.Default]
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                IsSearchable: =false
+                Items: =Choices(Priority)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =[]
+                SelectMultiple: =false
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey13.Y + DataCardKey13.Height + 5
+                ZIndex: =2
+
+            StarVisible10 As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =DataCardKey13.Height
+                Text: ="*"
+                Visible: =If(DataCardValue12.Selected.Value = Blank(),true,false)
+                Width: =30
+                Wrap: =false
+                X: =118
+                Y: =10
+                ZIndex: =4
+
+        "'Request Type_DataCard1' As typedDataCard.comboBoxOptionSetSingleEditCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_requesttype"
+            Default: =ThisItem.'Request Type'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_requesttype")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =true
+            Update: =DataCardValue13.Selected.Value
+            Width: =442
+            X: =2
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey14 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue13 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =[Parent.Default]
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                IsSearchable: =false
+                Items: =Choices('Request Type')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =[]
+                SelectMultiple: =false
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey14.Y + DataCardKey14.Height + 5
+                ZIndex: =2
+
+            StarVisible11 As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =DataCardKey14.Height
+                Text: ="*"
+                Visible: =If(DataCardValue13.Selected.Value = Blank(),true,false)
+                Width: =30
+                Wrap: =false
+                X: =194
+                Y: =10
+                ZIndex: =4
+
+        "'Assigned to_DataCard1' As typedDataCard.comboBoxEditCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_Assignedto"
+            Default: =ThisItem.'Assigned to'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_Assignedto")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =115
+            Required: =false
+            Update: =DataCardValue5.Selected
+            Width: =442
+            X: =0
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey6 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =11
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue5 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["crf7e_name"]
+                DisplayMode: =Parent.DisplayMode
+                IsSearchable: =false
+                Items: =If(varFormMode = FormMode.New,ServiceAssignedTo,Blank())
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["crf7e_name"]
+                SearchItems: =[]
+                SelectMultiple: =false
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =11
+                Y: =DataCardKey6.Y + DataCardKey6.Height + 5
+                ZIndex: =2
+
+            StarVisible4 As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 0, 0, 1)
+                Height: =DataCardKey6.Height
+                Text: ="*"
+                Visible: =If(varFormMode = FormMode.New,If(DataCardValue5.Selected.emp_name = Blank(),true,false),false)
+                Width: =30
+                Wrap: =false
+                X: =146
+                Y: =10
+                ZIndex: =4
+
+        DataCard3 As typedDataCard.blankCard:
+            BorderStyle: =BorderStyle.Solid
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =75
+            Visible: =If((userRecord.emp_TeamID =22 && GalpendingVis)|| varFormMode= FormMode.View,true, false)
+            Width: =1326
+            X: =0
+            Y: =3
+            ZIndex: =1
+
+            Label22 As label:
+                Align: =Align.Center
+                FontWeight: =FontWeight.Bold
+                Height: =84
+                Size: =25
+                Text: ="Approval Information"
+                Width: =1326
+                ZIndex: =1
+
+        Comments_DataCard1 As typedDataCard.textualEditCard:
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_comments"
+            Default: =ThisItem.Comments
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_comments")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =104
+            MaxLength: =DataSourceInfo([@'Service Desk Data'], DataSourceInfo.MaxLength, "crf7e_comments")
+            Required: =false
+            Update: =DataCardValue8.Text
+            Visible: =If((userRecord.emp_TeamID =22 && GalpendingVis)|| varFormMode= FormMode.View,true, false)
+            Width: =442
+            X: =0
+            Y: =4
+            ZIndex: =1
+
+            DataCardKey9 As label:
+                AutoHeight: =true
+                Height: =34
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                ZIndex: =1
+
+            DataCardValue8 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisplayMode: =Parent.DisplayMode
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =45
+                ZIndex: =2
+
+            ErrorMessage6 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue8.Y + DataCardValue8.Height
+                ZIndex: =3
+
+            StarVisible6 As label:
+                Align: =Align.Center
+                Height: =DataCardKey9.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey9.Y
+                ZIndex: =4
+
+        "'Service CreatedBy_DataCard1' As typedDataCard.comboBoxEditCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_ServiceCreatedBy"
+            Default: =ThisItem.'Service CreatedBy'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_ServiceCreatedBy")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue7.Selected
+            Visible: =false
+            Width: =442
+            X: =2
+            Y: =4
+            ZIndex: =1
+
+            DataCardKey8 As label:
+                AutoHeight: =true
+                Height: =34
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue7 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =Parent.Default
+                DisplayFields: =["crf7e_name"]
+                DisplayMode: =Parent.DisplayMode
+                IsSearchable: =false
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["crf7e_name"]
+                SearchItems: =[]
+                SelectMultiple: =false
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey8.Y + DataCardKey8.Height + 5
+                ZIndex: =2
+
+            ErrorMessage5 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue7.Y + DataCardValue7.Height
+                ZIndex: =3
+
+            StarVisible9 As label:
+                Align: =Align.Center
+                Height: =DataCardKey8.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey8.Y
+                ZIndex: =4
+
+        "'Service Status_DataCard1' As typedDataCard.comboBoxOptionSetSingleEditCard":
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="crf7e_servicestatus"
+            Default: =ThisItem.'Service Status'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: =DataSourceInfo([@'Service Desk Data'],DataSourceInfo.DisplayName,"crf7e_servicestatus")
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =84
+            Required: =false
+            Update: =DataCardValue16.Selected.Value
+            Visible: =If((userRecord.emp_TeamID =22 && GalpendingVis)|| varFormMode= FormMode.View,true, false)
+            Width: =442
+            X: =450
+            Y: =4
+            ZIndex: =1
+
+            DataCardKey17 As label:
+                AutoHeight: =true
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                Size: =18
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                ZIndex: =1
+
+            DataCardValue16 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                DefaultSelectedItems: =[Parent.Default]
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                IsSearchable: =false
+                Items: =Choices(ServiceStatus)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SearchFields: =["Value"]
+                SearchItems: =[]
+                SelectMultiple: =false
+                Size: =18
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Y: =41
+                ZIndex: =2
+
+            ErrorMessage14 As label:
+                AutoHeight: =true
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue16.Y + DataCardValue16.Height
+                ZIndex: =3
+
+            StarVisible14 As label:
+                Align: =Align.Center
+                Height: =DataCardKey17.Height
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey17.Y
+                ZIndex: =4
+
+    Label20_1 As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =99
+        Size: =30
+        Text: ="Add Ticket "
+        Width: =1366
+        ZIndex: =4
+
+    Icon4 As icon.ChevronLeft:
+        Color: =RGBA(255, 255, 255, 1)
+        Icon: =Icon.ChevronLeft
+        OnSelect: |-
+            =Refresh('Service Desk Data');
+            Set(EditForm,false);
+            Back()
+        X: =16
+        Y: =23
+        ZIndex: =5
+
+    Button6_2 As button:
+        DisplayMode: |-
+            =If(Or(
+                StarVisible10.Visible,
+                StarVisible13.Visible,
+                StarVisible8.Visible,
+                StarVisible7.Visible,
+                StarVisible4.Visible,
+                StarVisible11.Visible
+                ),
+                DisplayMode.Disabled,
+                DisplayMode.Edit
+            )
+        Height: =60
+        OnSelect: |-
+            =Patch('Service Desk Data',Defaults('Service Desk Data'),
+                {
+                    TicketID: DataCardValue6.Text,
+                    Title: DataCardValue15.Text,
+                    Description:DataCardValue10.Text,
+                    Department: DataCardValue9.Selected.Value,
+                    Priority: DataCardValue12.Selected.Value,
+                    'Request Type': DataCardValue13.Selected.Value,
+                    'Assigned to': LookUp(EmployeeData,empID = DataCardValue5.Selected.empID),
+                    'Service CreatedBy': userRecord,
+                    'Service Status': ServiceStatus.Pending
+            
+                }
+            
+            )
+        RadiusBottomLeft: =20
+        RadiusBottomRight: =20
+        RadiusTopLeft: =20
+        RadiusTopRight: =20
+        Size: =20
+        Text: ="Submit"
+        Visible: =If(userRecord.emp_TeamID =22 || varFormMode = FormMode.View, false, true)
+        Width: =314
+        X: =526
+        Y: =679
+        ZIndex: =6
+
+    Label21 As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 0, 0, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =44
+        Size: =15
+        Text: ="Please enter all the details "
+        Visible: |
+            =If(Or(
+                StarVisible10.Visible,
+                StarVisible13.Visible,
+                StarVisible8.Visible,
+                StarVisible7.Visible,
+                StarVisible4.Visible,
+                StarVisible11.Visible
+                ),
+                true,
+                false
+            )
+        Width: =436
+        X: =450
+        Y: =612
+        ZIndex: =7
+
+    Rectangle10 As rectangle:
+        Fill: =RGBA(219, 219, 219, 0.4)
+        Height: =380
+        Visible: =EditForm
+        Width: =1334
+        Y: =110
+        ZIndex: =8
+
+    Button11 As button:
+        Height: =60
+        Size: =25
+        Text: ="Submit"
+        Width: =334
+        X: =526
+        Y: =679
+        ZIndex: =9
+

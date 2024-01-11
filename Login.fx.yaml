@@ -1,0 +1,278 @@
+Login As screen:
+    OnVisible: |-
+        =UpdateContext({setPassWarn:false});
+        UpdateContext({varWrongID:true})
+
+    Rectangle1 As rectangle:
+        Height: =768
+        Width: =1366
+        ZIndex: =1
+
+    Rectangle4 As rectangle:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =744
+        Width: =864
+        X: =486
+        Y: =12
+        ZIndex: =2
+
+    Label1 As label:
+        Align: =Align.Center
+        Color: =RGBA(0, 94, 146, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =134
+        Size: =40
+        Text: ="Welcome!"
+        Width: =754
+        X: =531
+        Y: =36
+        ZIndex: =3
+
+    Label2 As label:
+        Height: =46
+        Size: =25
+        Text: ="Password"
+        Width: =286
+        X: =663
+        Y: =388
+        ZIndex: =4
+
+    Label3 As label:
+        Height: =48
+        Size: =25
+        Text: ="Employee ID"
+        Width: =317
+        X: =657
+        Y: =196
+        ZIndex: =5
+
+    Uname_TextInput1 As text:
+        Default: =""
+        Height: =66
+        RadiusBottomLeft: =25
+        RadiusBottomRight: =25
+        RadiusTopLeft: =25
+        RadiusTopRight: =25
+        Size: =18
+        Width: =534
+        X: =663
+        Y: =274
+        ZIndex: =6
+
+    Uname_TextInput2 As text:
+        Default: =""
+        Height: =74
+        Mode: =TextMode.Password
+        RadiusBottomLeft: =25
+        RadiusBottomRight: =25
+        RadiusTopLeft: =25
+        RadiusTopRight: =25
+        Size: =18
+        Width: =534
+        X: =663
+        Y: =445
+        ZIndex: =7
+
+    Button1 As button:
+        Height: =60
+        OnSelect: |-
+            =Refresh(EmployeeData);
+            Set(userRecord,LookUp(EmployeeData,empID=Value(Uname_TextInput1.Text)));
+            If(userRecord.emp_password = Uname_TextInput2.Text,
+                Navigate(HomePage);  Reset(Uname_TextInput1); Reset(Uname_TextInput2); UpdateContext({setPassWarn:true})
+                ,
+                UpdateContext({setPassWarn:true})
+            )
+        RadiusBottomLeft: =30
+        RadiusBottomRight: =30
+        RadiusTopLeft: =30
+        RadiusTopRight: =30
+        Size: =25
+        Text: ="Login"
+        Width: =400
+        X: =768
+        Y: =627
+        ZIndex: =8
+
+    Button3 As button:
+        BorderThickness: =0
+        Color: =RGBA(0, 94, 146, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        OnSelect: |-
+            =UpdateContext({varForgetVisible: true});
+            UpdateContext({varWrongID:false});
+            UpdateContext({varResetDone : false});
+        Size: =18
+        Text: ="Forget password?"
+        Width: =217
+        X: =980
+        Y: =531
+        ZIndex: =9
+
+    Label14 As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 0, 0, 1)
+        Height: =32
+        Size: =15
+        Text: ="Wrong Credentials"
+        Visible: =setPassWarn
+        Width: =559
+        X: =663
+        Y: =151
+        ZIndex: =10
+
+    Image1 As image:
+        Height: =566
+        Image: =login
+        ImagePosition: =ImagePosition.Fill
+        Width: =402
+        X: =40
+        Y: =75
+        ZIndex: =11
+
+    Rectangle5 As rectangle:
+        Fill: =RGBA(202, 202, 202, .4)
+        Height: =768
+        Visible: =varForgetVisible
+        Width: =1366
+        ZIndex: =12
+
+    Container1 As groupContainer.manualLayoutContainer:
+        Height: =557
+        Visible: =varForgetVisible
+        Width: =904
+        X: =244
+        Y: =99
+        ZIndex: =13
+
+        Rectangle6 As rectangle:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =557
+            Width: =904
+            ZIndex: =1
+
+        Button7 As button:
+            Height: =64
+            OnSelect: |-
+                =UpdateContext({varForgetVisible : false}) ;
+                UpdateContext({varWrongID:true});
+                UpdateContext({varResetDone : false})
+            RadiusBottomLeft: =25
+            RadiusBottomRight: =25
+            RadiusTopLeft: =25
+            RadiusTopRight: =25
+            Text: =If(varResetDone,"Close","Cancle")
+            Width: =234
+            X: =139
+            Y: =453
+            ZIndex: =3
+
+        Button8 As button:
+            DisplayMode: =If(varResetDone,DisplayMode.Disabled,DisplayMode.Edit)
+            Height: =64
+            OnSelect: |-
+                =If(IsBlank(LookUp(EmployeeData,empID=Value(TextInput1.Text))),
+                 UpdateContext({varWrongID:true});
+                 UpdateContext({varResetDone : false});
+                 UpdateContext({varForgetVisible : false});
+                 ,
+                 Patch(EmployeeData,LookUp(EmployeeData,empID=Value(TextInput1.Text)),{emp_password:TextInput2.Text});
+                    UpdateContext({varWrongID:false});
+                    UpdateContext({varResetDone : true})
+                );
+                Reset(TextInput1);
+                Reset(TextInput2);
+            RadiusBottomLeft: =25
+            RadiusBottomRight: =25
+            RadiusTopLeft: =25
+            RadiusTopRight: =25
+            Text: ="Save"
+            Width: =228
+            X: =523
+            Y: =453
+            ZIndex: =4
+
+        Label15 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =42
+            Size: =20
+            Text: ="New Password"
+            Width: =214
+            X: =258
+            Y: =257
+            ZIndex: =5
+
+        Label16 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =52
+            Size: =20
+            Text: ="Employee ID"
+            Width: =182
+            X: =258
+            Y: =126
+            ZIndex: =6
+
+        TextInput1 As text:
+            Default: =""
+            Height: =50
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            Size: =16
+            Width: =434
+            X: =258
+            Y: =191
+            ZIndex: =7
+
+        TextInput2 As text:
+            Default: =""
+            Height: =50
+            Mode: =TextMode.Password
+            RadiusBottomLeft: =10
+            RadiusBottomRight: =10
+            RadiusTopLeft: =10
+            RadiusTopRight: =10
+            Size: =16
+            Width: =434
+            X: =258
+            Y: =299
+            ZIndex: =8
+
+        Rectangle7 As rectangle:
+            Height: =94
+            Width: =904
+            ZIndex: =9
+
+        Label17 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            FontWeight: =FontWeight.Semibold
+            Height: =82
+            Size: =30
+            Text: ="Forget Password"
+            Width: =904
+            ZIndex: =10
+
+        Label23 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 0, 0, 1)
+            FontWeight: =FontWeight.Semibold
+            Size: =20
+            Text: ="Wrong ID!"
+            Visible: =varWrongID
+            X: =373
+            Y: =381
+            ZIndex: =11
+
+        Label26 As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 0, 0, 1)
+            Size: =15
+            Text: ="Password Reset Successfully"
+            Visible: =varResetDone
+            Width: =284
+            X: =333
+            Y: =381
+            ZIndex: =12
+
